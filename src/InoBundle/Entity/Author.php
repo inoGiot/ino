@@ -35,7 +35,7 @@ class Author
     /**
      * @var string
      *
-     * @ORM\Column(type="string", lenght=255)
+     * @ORM\Column(type="string", length=255)
      */
     protected $lastname;
 

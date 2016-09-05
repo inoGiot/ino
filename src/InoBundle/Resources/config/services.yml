@@ -5,3 +5,7 @@ services:
   model.product:
     class: InoBundle\Services\ProductModel
     arguments: ["@doctrine.orm.entity_manager"]
+
+  model.author:
+    class: InoBundle\Services\AuthorModel
+    arguments: ["@doctrine.orm.entity_manager"]

@@ -31,7 +31,6 @@ class ArticleController extends Controller
         $form = $this->createForm(ProductForm::class, $entity);
         $form->handleRequest($request);
 
-
         if ($form->isValid()) {
             $entity = $productModel->save($form->getData());
             $this->addFlash('success', 'Product created');

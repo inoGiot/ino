@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+
+{%  block body %}
+
+    <h1>Authors</h1>
+
+    <a class="btn btn-sm btn-success" href="{{ path('authors_new') }}">Create Author</a>
+
+    <table class="table table-condensed">
+        <tr>
+            <th>Options</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Lastname</th>
+        </tr>
+        {% for author in authors %}
+            <tr id="row-{{ author.id }}">
+                <td>
+                    <a class="btn btn-xs btn-info" href="{{ path('authors_edit', {id: author.id}) }}">Edit</a>
+                    <a class="btn btn-xs btn-danger author-remove" href="#" id="author-{{ author.id }}">Delete</a>
+                </td>
+                <td>{{ author.id }}</td>
+                <td>{{ author.name }}</td>
+                <td>{{ author.lastname }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $('.author-remove').click(function(e){
+                e.preventDefault();
+                if (!confirm('Are you sure you want to delete this ?')) {
+                    return;
+                }
+
+                var authorId = $(this).attr('id').replace('author-', '');
+
+                $.ajax({
+                    url: "{{ path('authors_remove') }}",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        id: authorId
+                    }
+                }).done(function(response){
+                    if (response.code === 200) {
+                        $('#row-' + authorId).css({
+                            'background': 'red',
+                            'color': 'white'
+                        }).fadeOut('slow');
+
+                    } else {
+                        alert(response.message);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

@@ -23,3 +23,20 @@ articles_remove:
     path: /article/remove
     defaults: { _controller: InoBundle:Article:delete }
 
+
+authors:
+  path: /authors
+  defaults: { _controller: InoBundle:Author:index }
+
+authors_new:
+  path: /author/new
+  defaults: { _controller: InoBundle:Author:edit, id: 0 }
+
+authors_edit:
+  path: /author/edit/{id}
+  defaults: { _controller: InoBundle:Author:edit }
+
+authors_remove:
+  path: /author/remove
+  defaults: { _controller: InoBundle:Author:delete }
+

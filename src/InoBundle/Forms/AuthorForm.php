@@ -3,14 +3,11 @@
 namespace InoBundle\Forms;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Length;
 
-class ProductForm extends AbstractType
+class AuthorForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,12 +20,15 @@ class ProductForm extends AbstractType
                     ])
                 ],
             ])
-            ->add('price', NumberType::class, [
+            ->add('lastname', TextType::class, [
                 'constraints' => [
-                    new GreaterThan(0)
+                    new Length([
+                        'min' => 2,
+                        'max' => 20
+                    ])
                 ],
             ])
-            ->add('description', TextareaType::class)
         ;
     }
+
 }
