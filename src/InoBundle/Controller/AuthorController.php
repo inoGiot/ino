@@ -2,7 +2,7 @@
 
 namespace InoBundle\Controller;
 
-use InoBundle\Forms\ProductForm;
+use InoBundle\Forms\AuthorForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,31 +12,30 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Template()
  */
-class ArticleController extends Controller
+class AuthorController extends Controller
 {
     public function indexAction()
     {
-        $articles = $this->get('model.product')->getAllProducts();
+        $authors = $this->get('model.author')->getAllAuthors();
 
         return [
-            'articles' => $articles,
+            'authors' => $authors,
         ];
     }
 
     public function editAction(Request $request, $id)
     {
-        $productModel = $this->get('model.product');
-        $entity = $productModel->getByIdOrEmpty($id);
+        $authorModel = $this->get('model.author');
+        $entity = $authorModel->getByIdOrEmpty($id);
 
-        $form = $this->createForm(ProductForm::class, $entity);
+        $form = $this->createForm(AuthorForm::class, $entity);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
-            $entity = $productModel->save($form->getData());
-            $this->addFlash('success', 'Product created');
+            $entity = $authorModel->save($form->getData());
+            $this->addFlash('success', 'Author created');
 
             return $this->redirect(
-                $this->generateUrl('articles_edit', [
+                $this->generateUrl('authors_edit', [
                     'id' => $entity->getId(),
                 ])
             );
@@ -45,25 +44,26 @@ class ArticleController extends Controller
         return [
             'form' => $form->createView(),
         ];
+
     }
 
     public function deleteAction(Request $request)
     {
         $id = $request->request->getInt('id');
-        $productModel = $this->get('model.product');
+        $authorModel = $this->get('model.author');
 
         if ($id > 0) {
-            $entity = $productModel->find($id);
-            $productModel->delete($entity);
+            $entity = $authorModel->find($id);
+            $authorModel->delete($entity);
 
             return new JsonResponse([
-                'code' => Response::HTTP_OK
+               'code' => Response::HTTP_OK
             ]);
         }
 
         return new JsonResponse([
             'code' => Response::HTTP_BAD_REQUEST,
-            'message' => 'Product could not be found',
+            'message' => 'Author could not be found',
         ]);
     }
 }
