@@ -1,0 +1,3 @@
+security_homepage:
+    path:     /
+    defaults: { _controller: SecurityBundle:Default:login}
