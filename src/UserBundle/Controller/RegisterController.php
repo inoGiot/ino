@@ -29,6 +29,8 @@ class RegisterController extends Controller
             $em->persist($user);
             $em->flush();
 
+            $request->getSession()->getFlashBag()
+                ->add('success', 'Welcome new user!');
             $url = $this->generateUrl('articles');
             return $this->redirect($url);
         }
