@@ -3,10 +3,11 @@
 namespace UserBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="UserBundle\Entity\UserRepository")
+ * @ORM\Table(name="user")
  */
 class User implements UserInterface
 {
