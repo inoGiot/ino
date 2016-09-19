@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Template()
@@ -25,6 +26,10 @@ class ArticleController extends Controller
 
     public function editAction(Request $request, $id)
     {
+        $securityContext = $this->get('security.authorization_checker');
+        if (!$securityContext->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Need ADMIN_ROLE');
+        }
         $productModel = $this->get('model.product');
         $entity = $productModel->getByIdOrEmpty($id);
 
