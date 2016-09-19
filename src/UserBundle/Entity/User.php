@@ -4,10 +4,14 @@ namespace UserBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass="UserBundle\Entity\UserRepository")
  * @ORM\Table(name="user")
+ * @UniqueEntity(fields="username", message="That username is taken!")
  */
 class User implements UserInterface
 {
@@ -15,14 +19,20 @@ class User implements UserInterface
      * @var int
      */
     private $id;
-
     /**
      * @var string
+     * @Assert\NotBlank(message="put a username!")
+     * @Assert\Length(min=3, minMessage="Give us at least 3 characters")
      */
     private $username;
 
     /**
      * @var string
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     *      pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/",
+     *      message="Use 1 upper case letter, 1 lower case letter, and 1 number"
+     * )
      */
     private $password;
 
